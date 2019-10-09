@@ -1,14 +1,26 @@
-import Vue from "vue";
-import App from "./App";
-import router from "./router/index";
+import Vue from 'vue';
+import Home from './components/Home.vue';
+import About from './components/About.vue';
+import vChartPlugin from './v-chart-plugin';
 
-import PaperDashboard from "./plugins/paperDashboard";
-import "vue-notifyjs/themes/default.css";
+Vue.config.productionTip = false;
+Vue.use(vChartPlugin);
 
-Vue.use(PaperDashboard);
+const routes = {
+  '/': Home,
+  '/about': About,
+};
 
-/* eslint-disable no-new */
+// eslint-disable-next-line no-new
 new Vue({
-  router,
-  render: h => h(App)
-}).$mount("#app");
+  el: '#app',
+  data: {
+    currentRoute: window.location.pathname,
+  },
+  computed: {
+    ViewComponent() {
+      return routes[this.currentRoute];
+    },
+  },
+  render(h) { return h(this.ViewComponent); },
+});
