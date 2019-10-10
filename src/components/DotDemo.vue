@@ -7,7 +7,6 @@
   </div>
 </template>
 <script>
-// import * as d3 from 'd3';
 const d3 = Object.assign({},
   require('d3-selection'),
   require('d3-scale'),
@@ -23,15 +22,12 @@ const height = 210;
 const width = 430;
 
 export default {
-  name: 'hello-world',
+  name: 'non-vue-line-chart',
   mounted() {
     const svg = d3.select(this.$el)
       .select('svg')
       .attr('width', width + padding.left + padding.right)
       .attr('height', height + padding.top + padding.bottom);
-      // .attr('viewBox', '0 0 800 270')
-      // .append('g')
-      // .attr('transform', 'translate(10, 10)');
 
     const x = d3.scaleLinear().range([0, width], 0.2);
     const y = d3.scaleLinear().range([height, 0]);

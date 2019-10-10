@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <h1>Area Chart</h1>
-    <hello-world />
+    <!-- <hello-world /> -->
+    <line-demo />
     <!-- <non-vue-line-chart /> -->
     <!-- <vue-line-chart /> -->
     <!-- <responsive-area-chart
@@ -9,7 +10,7 @@
       :data="data"
       :ceil="max"
       class="area-chart" /> -->
-    <div class="content">
+    <!-- <div class="content">
       <h3>Selected Value: {{currentValue}}</h3>
       <div>
         <label>Record Count: </label>
@@ -23,12 +24,13 @@
         <label>Max Value: </label>
         <input v-model="max" />
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import HelloWorld from './HelloWorld';
+// import HelloWorld from './HelloWorld';
+import LineDemo from './LineDemo';
 // import NonVueLineChart from './NonVueLineChart';
 // import VueLineChart from './VueLineChart';
 // import ResponsiveAreaChart from './ResponsiveAreaChart';
@@ -59,7 +61,8 @@ export default {
     },
   },
   components: {
-    HelloWorld
+    // HelloWorld
+    LineDemo
     // NonVueLineChart,
     // VueLineChart,
     // ResponsiveAreaChart,
