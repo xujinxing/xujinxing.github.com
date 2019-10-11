@@ -43,6 +43,11 @@ const lineGraph = function chart(mode) {
       axisWidth: 40,
       ticks: 5,
     },
+    y1: {
+      label: this.metric,
+      axisWidth: 40,
+      ticks: 5,
+    },
   };
 
   /**
@@ -58,7 +63,8 @@ const lineGraph = function chart(mode) {
         .attr('fill', 'none')
         .attr('id', `p${i}`)
         .attr('stroke', cs.palette.lineFill[i])
-        .attr('stroke-width', 3);
+        .attr('stroke-width', 3)
+        .style('stroke', cs.palette.lineFill[i]);
     });
     this.metric.forEach((e, i) => {
       cs.offset = i;
@@ -77,7 +83,7 @@ const lineGraph = function chart(mode) {
           this.$emit('chart-click', d);
         })
         .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-        .attr('cy', d => cs.y.scale(d.metric));
+        .attr('cy', d => i === 1 ? cs.y1.scale(d.metric) : cs.y.scale(d.metric));
     });
     if (this.goal) this.generateGoal(cs, true, 0);
     return points;
@@ -98,9 +104,9 @@ const lineGraph = function chart(mode) {
       cs.offset = i;
       points[i].transition()
         .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-        .attr('cy', d => cs.y.scale(d.metric))
+        .attr('cy', d => i === 1 ? cs.y1.scale(d.metric) : cs.y.scale(d.metric))
         .attr('cx', d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-        .attr('cy', d => cs.y.scale(d.metric));
+        .attr('cy', d => i === 1 ? cs.y1.scale(d.metric) : cs.y.scale(d.metric));
     });
     if (this.goal) this.generateGoal(cs, true, 0);
     return points;
@@ -128,8 +134,13 @@ const lineGraph = function chart(mode) {
    * @function
    */
   const buildScales = (cs) => {
+    const metric0 = this.ds.map(e => e.metric[0]);
+    const metric1 = this.ds.map(e => e.metric[1]);
     cs.y.scale = d3.scaleLinear()
-      .domain([this.min, this.max])
+      .domain([Math.min(...metric0), Math.max(...metric0)])
+      .range([this.displayHeight - cs.x.axisHeight, this.header]);
+    cs.y1.scale = d3.scaleLinear()
+      .domain([Math.min(...metric1), Math.max(...metric1)])
       .range([this.displayHeight - cs.x.axisHeight, this.header]);
     this.ds.forEach(t => cs.x.domain.push(t.dim));
     this.ds.forEach((t, i) => cs.x.range.push(((this.width * i) - this.header) / this.ds.length));
@@ -148,10 +159,15 @@ const lineGraph = function chart(mode) {
     cs.y.axis = d3.axisLeft().ticks(cs.y.ticks, 's').scale(cs.y.scale);
     cs.y.xOffset = cs.y.axisWidth;
     cs.y.yOffset = 0;
+    cs.y1.axis = d3.axisRight().ticks(cs.y1.ticks, 's').scale(cs.y1.scale);
+    cs.y1.xOffset = this.width - 5;
+    cs.y1.yOffset = 0;
     svgContainer.append('g').attr('class', 'axis').attr('transform', `translate(${cs.x.xOffset}, ${cs.x.yOffset})`)
       .call(cs.x.axis);
     svgContainer.append('g').attr('class', 'axis').attr('transform', `translate(${cs.y.xOffset},${cs.y.yOffset})`)
       .call(cs.y.axis);
+    svgContainer.append('g').attr('class', 'axis').attr('transform', `translate(${cs.y1.xOffset},${cs.y1.yOffset})`)
+      .call(cs.y1.axis);
   };
 
   cs.lineFunction = [];
@@ -159,7 +175,7 @@ const lineGraph = function chart(mode) {
     cs.lineFunction.push(
       d3.line()
         .x(d => cs.x.scale(d.dim) + cs.y.axisWidth + 5)
-        .y(d => cs.y.scale(d.metric[i])),
+        .y(d => i === 1 ? cs.y1.scale(d.metric[i]) : cs.y.scale(d.metric[i])),
     );
   });
 
