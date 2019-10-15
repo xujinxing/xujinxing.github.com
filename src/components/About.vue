@@ -2,7 +2,8 @@
   <div id="app">
     <h1>Area Chart</h1>
     <!-- <hello-world /> -->
-    <line-demo />
+    <!-- <line-demo /> -->
+    <dot-demo />
     <!-- <non-vue-line-chart /> -->
     <!-- <vue-line-chart /> -->
     <!-- <responsive-area-chart
@@ -30,7 +31,8 @@
 
 <script>
 // import HelloWorld from './HelloWorld';
-import LineDemo from './LineDemo';
+// import LineDemo from './LineDemo';
+import DotDemo from './DotDemo';
 // import NonVueLineChart from './NonVueLineChart';
 // import VueLineChart from './VueLineChart';
 // import ResponsiveAreaChart from './ResponsiveAreaChart';
@@ -62,7 +64,8 @@ export default {
   },
   components: {
     // HelloWorld
-    LineDemo
+    // LineDemo
+    DotDemo
     // NonVueLineChart,
     // VueLineChart,
     // ResponsiveAreaChart,

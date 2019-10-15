@@ -1,8 +1,6 @@
 <template>
   <div>
     <svg>
-      <rect fill="steelblue" x="20" y="281" width="30" height="99"></rect>
-      <text fill="white" font-size="14px" text-anchor="middle" x="20" y="281" dx="15" dy="1em">99</text>
     </svg>
   </div>
 </template>
@@ -48,8 +46,8 @@ for(let i = 0; i < dataset.length; i++) {
 
 const rectStep = 35;
 const rectWidth = 30;
-const height = 210;
-const width = 430;
+const height = 420;
+const width = 860;
 
 export default {
   name: 'line-demo',
